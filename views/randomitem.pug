@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  - var image_names = ['M416.jpg', 'Ak -47.jpg', 'M249.jpg', 'AWM.jpg', 'K98.jpg']
+  - var height = 200
+  - var width = 200
+  - var displayedImages = []
+  while displayedImages.length < 3
+    - var randomIndex = Math.floor(Math.random() * 5)
+    - var randomImage = image_names[randomIndex]
+    - if (!displayedImages.includes(randomImage))
+      - displayedImages.push(randomImage)
+      img(
+        src=`/images/${randomImage}`,
+        alt=`${randomImage}`,
+        height=height,
+        width=width
+      )
