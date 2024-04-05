@@ -62,7 +62,7 @@ async function recreateDB(){
   // Delete everything
   await gun.deleteMany();
   let instance1 = new
-  gun({gun_type:"M416", Manufacturerr:'Heckler',
+  gun({gun_type:"M416", Manufacturer:'Heckler',
   Caliber:5.56});
   instance1.save().then(doc=>{
   console.log("First object saved")}
@@ -70,7 +70,7 @@ async function recreateDB(){
   console.error(err)
   });
   let instance2 = new
-  gun({gun_type:"AK-47", Manufacturerr:'Kalashnikov Concern',
+  gun({gun_type:"AK-47", Manufacturer:'Kalashnikov Concern',
   Caliber:7.62});
   instance2.save().then(doc=>{
   console.log("second object saved")}
@@ -78,7 +78,7 @@ async function recreateDB(){
   console.error(err)
   });
   let instance3 = new
-  gun({gun_type:"M249", Manufacturerr:'FN Herstal',
+  gun({gun_type:"M249", Manufacturer:'FN Herstal',
   Caliber:5.56});
   instance3.save().then(doc=>{
   console.log("Third object saved")}
