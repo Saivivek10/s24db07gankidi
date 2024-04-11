@@ -61,6 +61,7 @@ exports.gun_create_post = async function(req, res) {
     }
     };
     // Handle gun delete from on DELETE.
+        
 exports.gun_delete = function(req, res) {
 res.send('NOT IMPLEMENTED: gun delete DELETE ' + req.params.id);
 };
@@ -89,3 +90,77 @@ exports.gun_update_put = async function(req, res) {
     failed`);
     }
     };
+
+    // Handle gun delete on DELETE.
+exports.gun_delete = async function(req, res) {
+    console.log("delete " + req.params.id)
+    try {
+    result = await gun.findByIdAndDelete( req.params.id)
+    console.log("Removed " + result)
+    res.send(result)
+    } catch (err) {
+    res.status(500)
+    res.send(`{"error": Error deleting ${err}}`);
+    }
+};
+
+// Handle a show one view with id specified by query
+exports.gun_view_one_Page = async function(req, res) {
+    console.log("single view for id " + req.query.id)
+    try{
+    result = await gun.findById( req.query.id)
+    res.render('gundetail',
+    { title: 'gun Detail', toShow: result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };
+
+
+    
+// Handle building the view for creating a gun.
+// No body, no in path parameter, no query.
+// Does not need to be async
+exports.gun_create_Page = function(req, res) {
+    console.log("create view")
+    try{
+    res.render('guncreate', { title: 'gun Create'});
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };
+
+// Handle building the view for updating a gun.
+// query provides the id
+exports.gun_update_Page = async function(req, res) {
+    console.log("update view for item "+req.query.id)
+    try{
+    let result = await gun.findById(req.query.id)
+    res.render('gunupdate', { title: 'gun Update', toShow: result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };
+    
+// Handle a delete one view with id from query
+exports.gun_delete_Page = async function(req, res) {
+    console.log("Delete view for id " + req.query.id)
+    try{
+    result = await gun.findById(req.query.id)
+    res.render('gundelete', { title: 'gun Delete', toShow:
+    result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };
+
+
+

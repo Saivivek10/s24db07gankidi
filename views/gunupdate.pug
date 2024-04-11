@@ -1,0 +1,49 @@
+extends layout
+
+block content
+    div(class="container-fluid p-5 bg-primary text-white text-center")
+
+        h1= title
+
+        if(toShow == null)
+            h2 No instance to update 
+        else
+            - let gunid = toShow._id
+            - let gun_type = toShow.gun_type
+            - let Manufacturer = toShow.Manufacturer
+            - let Caliber = toShow.Caliber
+
+            div.row(class="container-fluid p-2 bg-dark text-white")
+                div.mr-1 ID is
+                div #{gunid}
+
+                - let actionid = "/resource/gun/" + gunid
+                form(id='gunForm', action= actionid, method="PUT" class="p-2 bg-dark flex-fill")
+                    div.form-group(class="p-2 text-white flex-fill")
+                        label.gunAttr(for='gun_type', style="width: 120px") gun Name 
+                        input#gun_type(type='text', name='gun_type', value= gun_type)
+                    div.form-group(class="p-2 text-white flex-fill")
+                        label.gunAttr(for='Manufacturer', style="width: 120px") gun Place 
+                        input#Manufacturer(type='text', name='Manufacturer', value= Manufacturer)
+                    div.form-group(class="p-2 text-white flex-fill")
+                        label.gunAttr(for='Caliber', style="width: 120px") Caliber
+                        input#Caliber(type='number', name='Caliber', value= Caliber)
+                    input(type="submit", class="btn btn-primary m-2")
+
+            script.
+                document.forms['gunForm'].addEventListener('submit', (event) => {
+                    event.preventDefault();
+                        // TODO do something here to show user that form is being submitted
+                    fetch(event.target.action, {
+                        method: 'PUT',
+                        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+                    }).then((resp) => {
+                        return resp.json(); // or resp.text() or whatever the server sends
+                    }).then((body) => {
+                        alert("Update succeeded");
+                        // TODO handle body
+                    }).catch((error) => {
+                            // TODO handle error
+                        alert("Update failed: " + error);
+                        });
+                });

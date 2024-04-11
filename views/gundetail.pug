@@ -1,0 +1,27 @@
+extends layout
+
+block content
+
+    h1= title
+    
+    if (toShow == null)
+        h2 No instance to view Details of the gun.
+    else
+        - let gunid = toShow._id
+        - let gun_type = toShow.gun_type
+        - let Manufacturer = toShow.Manufacturer
+        - let Caliber = toShow.Caliber
+    
+        div
+            div.row
+                div(class='gunAttr mr-3') gun ID is:
+                div #{gunid}
+            div.row
+                div(class='gunAttr mr-3') gun type is:
+                div #{gun_type}
+            div.row
+                div(class='gunAttr mr-3') gun Manufacturer is:
+                div #{Manufacturer}
+            div.row
+                div(class='gunAttr mr-3') Caliber is:
+                div #{Caliber}
