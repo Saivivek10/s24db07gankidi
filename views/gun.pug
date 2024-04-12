@@ -2,17 +2,18 @@ extends layout
 
 block content
   h1= title
-  - let items=results;
-  //- let results = [{gun_type:'M416',Manufacturer:'Heckler & Koch',Caliber:5.56 },{gun_type:'AK-47',Manufacturer:'Kalashnikov Concern',Caliber:7.62},{gun_type:'M249',Manufacturer:'FN Herstal',Caliber:5.56}, {gun_type:'AWM',Manufacturer:'Accuracy International',Caliber: 300},{gun_type:'Kar98k',Manufacturer:'Mauser',Caliber:7.92}]
+  //- Assuming `results` is passed correctly from your server with `_id` included
   div(class="container-fluid")
-    div(class="row")
-      each item, index in results  
-       div(class="col-sm-2",onclick=`buy(${index})`)
-          p #{item.gun_type} 
-          p #{item.Manufacturer}
-          p #{item.Caliber} 
+    div(class="row m-1")
+      each item in results 
+        div(class="col-sm-2")
+          ul 
+            li #{item.gun_type}
+            li #{item.Manufacturer}
+            li #{item.Caliber}
+          button.btn.btn-primary.ml-1(onclick=`dispatch("/gun/update?id=${item._id}")`) Update
+
   script.
-    function buy(index) {
-    alert("You purchased item " + index);
-    
-    }  
+    function dispatch(path){
+      window.location.href = path;
+    }
