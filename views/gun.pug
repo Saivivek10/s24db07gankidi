@@ -2,18 +2,26 @@ extends layout
 
 block content
   h1= title
-  //- Assuming `results` is passed correctly from your server with `_id` included
+  p Welcome to #{title}
+
+  - let create = `dispatch("/gun/create")`
+  button.btn(class="btn-secondary ml-1", onclick=create) Create
+
+  - let item = results
+
   div(class="container-fluid")
     div(class="row m-1")
-      each item in results 
+      each item, index in results
         div(class="col-sm-2")
-          ul 
+          ul
             li #{item.gun_type}
             li #{item.Manufacturer}
             li #{item.Caliber}
-          button.btn.btn-primary.ml-1(onclick=`dispatch("/gun/update?id=${item._id}")`) Update
+          button.btn(class="btn-secondary ml-1", onclick=`dispatch("/gun/update?id=${item._id}")`) Update
+          button.btn(class="btn-secondary ml-1", onclick=`dispatch("/gun/detail?id=${item._id}")`) Detail
+          button.btn(class="btn-secondary ml-1", onclick=`dispatch("/gun/delete?id=${item._id}")`) Delete
 
   script.
-    function dispatch(path){
-      window.location.href = path;
+    function dispatch(path) {
+      window.location.href = path
     }

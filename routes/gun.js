@@ -1,6 +1,19 @@
 var express = require('express');
-const gun_controlers= require('../controllers/gun');
+var passport = require('passport');
+const gun_controlers = require('../controllers/gun');
 var router = express.Router();
+
+
+// A little function to check if we have an authorized user and continue on
+//or
+// redirect to login.
+const secured = (req, res, next) => {
+    if (req.user) {
+        return next();
+    }
+    res.redirect("/login");
+}
+
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -13,10 +26,17 @@ module.exports = router;
 router.get('/detail', gun_controlers.gun_view_one_Page);
 
 /* GET create gun page */
-router.get('/create', gun_controlers.gun_create_Page);
+router.get('/create', secured, gun_controlers.gun_create_Page);
 
 /* GET create update page */
-router.get('/update', gun_controlers.gun_update_Page);
+router.get('/update', secured, gun_controlers.gun_update_Page);
 
 /* GET delete gun page */
-router.get('/delete', gun_controlers.gun_delete_Page);
+router.get('/delete', secured, gun_controlers.gun_delete_Page);
+
+
+router.post('/login', passport.authenticate('local'), function (req, res) {
+    res.redirect('/');
+});
+
+module.exports = router;
